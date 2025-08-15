@@ -1,0 +1,108 @@
+/* Mobile First Approach */
+@media (max-width: 767px) {
+    /* Navigation */
+    .navbar {
+        flex-direction: column;
+        padding: 15px 0;
+    }
+
+    .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+    }
+
+    /* Hero Section */
+    .hero {
+        padding: 80px 0;
+        text-align: center;
+    }
+
+    .hero-content {
+        margin-bottom: 30px;
+    }
+
+    /* Course Cards */
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Dashboard */
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .progress-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) and (max-width: 1023px) {
+    /* Course Grid */
+    .course-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Dashboard */
+    .dashboard-content {
+        grid-template-columns: 1fr;
+    }
+
+    /* Course Single Page */
+    .course-content {
+        grid-template-columns: 1fr;
+    }
+
+    .course-sidebar {
+        margin-top: 30px;
+    }
+}
+
+/* Small Desktop Adjustments */
+@media (min-width: 1024px) and (max-width: 1279px) {
+    .course-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Large Desktop Optimizations */
+@media (min-width: 1280px) {
+    .container {
+        max-width: 1400px;
+    }
+}
+
+/* Special Cases */
+@media (max-width: 480px) {
+    /* Auth Forms */
+    .auth-container {
+        padding: 20px;
+    }
+
+    .auth-form {
+        width: 100%;
+    }
+
+    /* Course Single */
+    .video-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

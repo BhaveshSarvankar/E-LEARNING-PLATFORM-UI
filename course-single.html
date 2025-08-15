@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details | LearnHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9fafb;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        .course-header {
+            margin-bottom: 20px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 10px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .course-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .course-meta {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .course-meta span {
+            margin-right: 15px;
+        }
+        .course-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .video-container {
+            flex: 2;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        .video-info {
+            margin-top: 15px;
+        }
+        .video-info h3 {
+            margin: 0 0 10px;
+            font-size: 1.2rem;
+        }
+        .video-actions button {
+            padding: 8px 14px;
+            margin-right: 8px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #ccc;
+            color: #333;
+        }
+        .course-curriculum {
+            flex: 1;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .course-curriculum h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        .module-item {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .module-item:hover {
+            background: #f1f1f1;
+        }
+        @media (max-width: 768px) {
+            .course-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="course-single">
+        <div class="container">
+            <div class="course-header">
+                <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Courses</a>
+                <h1 class="course-title">Loading Course...</h1>
+                <div class="course-meta">
+                    <span class="instructor"><i class="fas fa-user"></i> <span id="instructor-name">Loading...</span></span>
+                    <span class="rating"><i class="fas fa-star"></i> <span id="course-rating">4.8</span> (<span id="review-count">12,500</span>)</span>
+                </div>
+            </div>
+
+            <div class="course-content">
+                <div class="video-container">
+                    <div class="video-wrapper">
+                        <iframe id="course-video" src="" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3 id="current-lesson">Loading lesson...</h3>
+                        <div class="video-actions">
+                            <button class="btn-primary"><i class="fas fa-bookmark"></i> Save</button>
+                            <button class="btn-outline"><i class="fas fa-share-alt"></i> Share</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-curriculum">
+                    <h2><i class="fas fa-list-ol"></i> Course Content</h2>
+                    <div id="course-modules">
+                        <p>Loading modules...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+    const courseId = parseInt(params.get("id"));
+
+    if (!courseId) {
+        alert("No course ID found in URL.");
+        return;
+    }
+
+    fetch("courses.json")
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to load courses.json");
+            return response.json();
+        })
+        .then(courses => {
+            const course = courses.find(c => c.id === courseId);
+            if (!course) {
+                alert("Course not found!");
+                return;
+            }
+
+            document.querySelector(".course-title").textContent = course.title;
+            document.getElementById("instructor-name").textContent = course.instructor;
+            document.getElementById("course-rating").textContent = course.rating;
+            document.getElementById("course-video").src = course.video || "https://www.youtube.com/embed/dQw4w9WgXcQ";
+            document.getElementById("current-lesson").textContent = course.firstLesson || "Introduction";
+
+            const modulesContainer = document.getElementById("course-modules");
+            modulesContainer.innerHTML = "";
+            if (course.modules) {
+                course.modules.forEach((mod, index) => {
+                    const div = document.createElement("div");
+                    div.className = "module-item";
+                    div.innerHTML = `<strong>Module ${index + 1}:</strong> ${mod}`;
+                    modulesContainer.appendChild(div);
+                });
+            } else {
+                modulesContainer.innerHTML = "<p>No modules available.</p>";
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Could not load course data.");
+        });
+});
+    </script>
+</body>
+</html>

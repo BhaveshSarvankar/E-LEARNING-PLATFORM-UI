@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Dashboard | LearnHub</title>
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <!-- Navigation (same as index.html) -->
+
+    <main class="dashboard">
+        <div class="container">
+            <h1>My Learning Dashboard</h1>
+            
+            <!-- Progress Overview -->
+            <div class="progress-overview">
+                <div class="progress-card">
+                    <h3>Overall Completion</h3>
+                    <div class="progress-circle" style="--progress: 65%">
+                        <span>65%</span>
+                    </div>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <h4>Courses Enrolled</h4>
+                        <p>5</p>
+                    </div>
+                    <div class="stat">
+                        <h4>Hours Learned</h4>
+                        <p>24</p>
+                    </div>
+                    <div class="stat">
+                        <h4>Certificates</h4>
+                        <p>2</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enrolled Courses -->
+            <div class="enrolled-courses">
+                <h2>My Courses</h2>
+                <div class="course-grid">
+                    <!-- Loaded via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/dashboard.js"></script>
+</body>
+</html>

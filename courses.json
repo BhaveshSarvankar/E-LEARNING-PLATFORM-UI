@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "title": "Complete Web Development Bootcamp",
+    "category": "web-dev",
+    "level": "Beginner",
+    "instructor": "Dr. Angela Yu",
+    "rating": 4.8,
+    "image": "web-dev.jpg",
+    "video": "https://www.youtube.com/embed/5yHpfICfx_k"
+  },
+  {
+    "id": 2,
+    "title": "Python for Data Science",
+    "category": "python",
+    "level": "Intermediate",
+    "instructor": "Jose Portilla",
+    "rating": 4.7,
+    "image": "python.jpg",
+    "video": "https://www.youtube.com/embed/CMEWVn1uZpQ"
+  }
+]

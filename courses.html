@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Courses | LearnHub</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Same styles as before */
+        .courses-page { padding: 3rem 0; background: #f8fafc; }
+        .course-filters { display: flex; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+        .search-bar { flex: 1; min-width: 300px; position: relative; }
+        .search-bar input { width: 100%; padding: 12px 20px; padding-left: 45px; border: 1px solid #e2e8f0; border-radius: 50px; font-size: 1rem; transition: all 0.3s ease; }
+        .search-bar input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2); outline: none; }
+        .search-bar i { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--gray); }
+        .filter-options { display: flex; gap: 1rem; }
+        .filter-btn { padding: 10px 20px; background: white; border: 1px solid #e2e8f0; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; }
+        .filter-btn:hover, .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .course-card { position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer; }
+        .course-badge { position: absolute; top: 15px; left: 15px; background: var(--primary); color: white; padding: 5px 12px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; z-index: 2; }
+        .course-img { height: 180px; overflow: hidden; }
+        .course-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .course-card:hover .course-img img { transform: scale(1.05); }
+        .course-content { padding: 1.5rem; background: white; }
+        .course-title { font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: 600; }
+        .course-instructor { color: var(--gray); margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .course-meta { display: flex; justify-content: space-between; align-items: center; }
+        .course-rating { display: flex; align-items: center; gap: 5px; color: #f59e0b; }
+        .course-price { font-weight: 600; color: var(--primary); }
+    </style>
+</head>
+<body>
+    <main class="courses-page">
+        <div class="container">
+            <h1>Browse Our Courses</h1>
+            <p class="subtitle">Find the perfect course to advance your career</p>
+            
+            <div class="course-filters">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search courses...">
+                </div>
+                <div class="filter-options">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="web-dev">Web Development</button>
+                    <button class="filter-btn" data-category="python">Python</button>
+                    <button class="filter-btn" data-category="design">Design</button>
+                </div>
+            </div>
+            
+            <div id="courseGrid" class="course-grid">
+                <!-- Courses will load here -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const courseGrid = document.getElementById("courseGrid");
+        const searchInput = document.getElementById("searchInput");
+        let allCourses = [];
+
+        // Load courses from JSON
+        fetch("courses.json")
+            .then(res => res.json())
+            .then(data => {
+                allCourses = data;
+                renderCourses(data);
+            })
+            .catch(err => console.error("Error loading courses:", err));
+
+        function renderCourses(courses) {
+            courseGrid.innerHTML = "";
+            courses.forEach(course => {
+                const card = document.createElement("div");
+                card.classList.add("course-card");
+                card.innerHTML = `
+                    <div class="course-img">
+                        <img src="assets/images/${course.image}" alt="${course.title}">
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">${course.title}</h3>
+                        <p class="course-instructor">${course.instructor}</p>
+                        <div class="course-meta">
+                            <div class="course-rating">
+                                <i class="fas fa-star"></i>
+                                <span>${course.rating}</span>
+                            </div>
+                            <span class="course-level">${course.level}</span>
+                        </div>
+                    </div>
+                `;
+                card.addEventListener("click", () => {
+                    window.location.href = `course-single.html?id=${course.id}`;
+                });
+                courseGrid.appendChild(card);
+            });
+        }
+
+        // Search functionality
+        searchInput.addEventListener("input", () => {
+            const term = searchInput.value.toLowerCase();
+            const filtered = allCourses.filter(c => c.title.toLowerCase().includes(term));
+            renderCourses(filtered);
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const category = this.getAttribute("data-category");
+                if (category === "all") {
+                    renderCourses(allCourses);
+                } else {
+                    renderCourses(allCourses.filter(c => c.category === category));
+                }
+            });
+        });
+    </script>
+</body>
+</html>
