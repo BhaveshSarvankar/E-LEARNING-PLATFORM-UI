@@ -18,5 +18,14 @@
     "rating": 4.7,
     "image": "python.jpg",
     "video": "https://www.youtube.com/embed/CMEWVn1uZpQ"
+  },
+  {
+    "id": "course1",
+    "title": "JavaScript Basics",
+    "instructor": "John Doe",
+    "rating": 4.8,
+    "level": "Beginner",
+    "image": "js-basics.jpg",
+    "video": "https://www.youtube.com/embed/W6NZfCO5SIk"
   }
 ]
