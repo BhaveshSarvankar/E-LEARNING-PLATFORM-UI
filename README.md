@@ -78,4 +78,4 @@ This UI is perfect for anyone looking to build a polished, professional online c
 🔗 Live Demo
 
 The UI is deployed via GitHub Pages:
-https://bhavessarvankar.github.io/E-LEARNING-PLATFORM-UI/
+https://bhaveshsarvankar.github.io/E-LEARNING-PLATFORM-UI/
